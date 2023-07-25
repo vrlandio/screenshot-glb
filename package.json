@@ -11,7 +11,7 @@
   "author": "Stephan Leroux <stephan.leroux@shopify.com>",
   "license": "MIT",
   "dependencies": {
-    "@google/model-viewer": "1.0.0",
+    "@google/model-viewer": "^1.12.1",
     "puppeteer": "9.0.0",
     "yargs": "^13.3.0"
   }
