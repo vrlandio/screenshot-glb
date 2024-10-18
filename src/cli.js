@@ -8,6 +8,7 @@ const FileServer = require('./file-server');
 
 const startBrowser = require('./start-browser')
 const loadGLBAndScreenshot = require('./load-glb-and-screenshot');
+const loadGLBAndScreenshotRotation = require('./load-glb-and-screenshot-rotation');
 
 const argv = require('yargs')
   .alias('i', 'input')
@@ -17,6 +18,7 @@ const argv = require('yargs')
   .alias('f', 'image_format')
   .alias('q', 'image_quality')
   .alias('t', 'timeout')
+  .alias('r', 'rotate')
   .count('verbose')
   .alias('v', 'verbose')
   .describe('i', 'Input glTF 2.0 binary (GLB) filepath')
@@ -27,6 +29,8 @@ const argv = require('yargs')
   .describe('q', 'Quality of the output image (defaults to 0.92)')
   .describe('t', 'Timeout length')
   .describe('v', 'Enable verbose logging')
+  .describe('r', 'generate rotation screenshot 15 angles')
+
   .demandOption(['i', 'o'])
   .argv;
 
@@ -48,7 +52,7 @@ function copyModelViewer(){
 //  const modelViewerDirectory = path.dirname(path.dirname(require.resolve('@google/model-viewer')));
   const srcFile = path.resolve(__dirname, "../node_modules/@google/model-viewer/", 'dist/model-viewer.min.js');
   const destFile = path.resolve(__dirname, '../lib/model-viewer.min.js');  
-  
+ 
   fs.copyFile(srcFile, destFile, (err) => {
     if (err) throw err;
   });
@@ -88,10 +92,15 @@ function copyModelViewer(){
   
   let t3 = performance.now();
 
+
   process_status = 0;
 
   try {
-    await loadGLBAndScreenshot(page, { glbPath, outputPath: argv.output, format, quality, timeout });
+
+    if (argv.r)  
+    await loadGLBAndScreenshotRotation(page, { glbPath, outputPath: argv.output, format, quality, timeout });
+    else
+     await loadGLBAndScreenshot(page, { glbPath, outputPath: argv.output, format, quality, timeout });
     t3 = performance.now();
     INFO("--- Took snapshot of", argv.input, `(${timeDelta(t2, t3)} s)`);
   } catch (err) {
