@@ -49,7 +49,7 @@ module.exports = (page, {glbPath, outputPath, format, quality, timeout, rotation
       const createCompositeImage = () => {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        const imageSize = 360; // Adjust this value based on your needs
+        const imageSize = 256; // Adjust this value based on your needs
 
 
         canvas.width = imageSize * totalRotations;
