@@ -15,9 +15,14 @@ const htmlTemplate = ({width, height, libPort}) => {
   return `
     <html>
       <head>
-        <script type="module"
+   <script type="module"
           src="http://localhost:${libPort}/model-viewer.min.js">
-        </script>
+   </script>
+   <script>
+        self.ModelViewerElement = self.ModelViewerElement || {};
+        self.ModelViewerElement.meshoptDecoderLocation = 'https://cdn.jsdelivr.net/npm/meshoptimizer/meshopt_decoder.js';
+   </script>
+
         <style>
           #snapshot-viewer {
             width: ${width};
